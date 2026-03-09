@@ -1,11 +1,42 @@
 name: CI Pipeline
-on: [push, pull_request]
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
 
 jobs:
-  build:
+  build-test-lint:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      
-      - name: Say Hello
-        run: echo "Pipeline berhasil jalan!"
+      # 1 ambil kode dari repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2 setup node js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      # 3 install dependency
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./ci-node-app
+
+      # 4 build project
+      - name: Run build
+        run: npm run build
+        working-directory: ./ci-node-app
+
+      # 5 lint code
+      - name: Run lint
+        run: npm run lint
+        working-directory: ./ci-node-app
+
+      # 6 run test
+      - name: Run test
+        run: npm test
+        working-directory: ./ci-node-app
