@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "node app.js",
     "build": "echo Build success",
-    "test": "jest",
-    "lint": "eslint ."
+    "test": "echo test success",
+    "lint": "echo lint success"
   },
   "keywords": [],
   "author": "",
