@@ -29,7 +29,7 @@ jobs:
         run: npm run lint
         working-directory: ./ci-node-app
 
-      - name: Run test with coverage
+      - name: Run test
         run: npm test -- --coverage
         working-directory: ./ci-node-app
 
