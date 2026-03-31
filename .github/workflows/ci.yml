@@ -34,7 +34,7 @@ jobs:
         working-directory: ./ci-node-app
 
       - name: Upload coverage artifact
-        uses: action/upload-artifact@v3
+        uses: actions/upload-artifact@v3
         with:
           name: coverage-report
           path: ./ci-node-app/coverage
