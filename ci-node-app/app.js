@@ -6,6 +6,10 @@ app.get("/", (req, res) => {
   res.send("Hello CI Pipeline!");
 });
 
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
 const PORT = 3000;
 
 app.listen(PORT, () => {
