@@ -1,11 +1,11 @@
 const express = require("express");
+const helmet = require("helmet");
 const mysql = require("mysql2");
 const redis = require("redis");
-const helmet = require("helmet");
-app.use(helmet());
 
 const app = express();
 
+app.use(helmet());
 // Structured JSON logging
 function log(level, message, extra = {}) {
   console.log(JSON.stringify({
