@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   app:
@@ -6,19 +6,58 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - NODE_ENV=production
+      - DB_HOST=db
+      - DB_USER=devuser
+      - DB_PASSWORD=devpassword
+      - DB_NAME=devopsdb
+      - REDIS_HOST=redis
     depends_on:
       - db
+      - redis
+    volumes:
+      - .:/app
+      - /app/node_modules
 
   db:
-    image: mysql:8.0
+    image: mysql:8
     environment:
-      MYSQL_ROOT_PASSWORD: root123
-      MYSQL_DATABASE: appdb
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: devopsdb
+      MYSQL_USER: devuser
+      MYSQL_PASSWORD: devpassword
     volumes:
       - mysql_data:/var/lib/mysql
     ports:
       - "3306:3306"
 
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    depends_on:
+      - app
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin123
+    volumes:
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - prometheus
+
 volumes:
   mysql_data:
+  redis_data:
+  grafana_data:
